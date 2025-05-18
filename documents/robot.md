@@ -69,6 +69,25 @@ network={
 请注意，key_mgmt为Wi-Fi安全性参数，目前测试过的只有这个安全性，可以根据Wi-Fi路由器进行修改。scan_ssid=1仅需要在Wi-Fi为隐藏Wi-Fi时添加。
 - 保存并退出
 按下esc退出编辑模式，按下:进入命令模式，输入命令wq回车保存并退出。
+- 应用更改
+输入`wpa_supplicant -B -i wlan0 -c /etc/wpa_supplicant.conf`,看到以下内容说明正确应用：
+```
+Successfully initialized wpa_supplicant
+nl80211: kernel reports: Authentication algorithm number required
+```
+
+如果报错：
+```
+ctrl_iface exists and seems to be in use - cannot override it
+Delete '/var/run/wpa_supplicant/wlan0' manually if it is not used anymore
+Failed to initialize control interface '/var/run/wpa_supplicant'.
+You may have another wpa_supplicant process already running or the file was
+left by an unclean termination of wpa_supplicant in which case you will need
+to manually remove this file before starting wpa_supplicant again.
+```
+
+使用`ps aux | grep wpa_supplicant`并且`kill -9 <相关pid>`,然后重新执行上述应用更改的代码。
+
 - 重启开发板
 ```bash
 reboot
